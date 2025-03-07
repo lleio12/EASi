@@ -1,7 +1,10 @@
 #include "main.h"
 
-void setup () {
+// bh --> 0x23
+// oled --> 0x3D / 0x3C
 
+void setup () {
+  void iniciarHumTemp();
 }
 
 void loop(){

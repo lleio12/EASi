@@ -1,7 +1,7 @@
 #include "sensorHumidade.h"
 
 void moistureSensor(void *parameters){
-    
+
     for(;;) {}
 }
 
@@ -10,7 +10,7 @@ void iniciarMoistureSensor(UBaseType_t core, uint32_t stackDepth, UBaseType_t pr
     TaskHandle_t moistureSensor0;
     xTaskCreatePinnedToCore(
         moistureSensor,
-        "Clock",
+        "Moisture Sensor",
         stackDepth,
         NULL,
         priority,
