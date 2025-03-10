@@ -11,3 +11,7 @@
 // sensorDHT11, ou sensor de humidade e temperaura da atmosfera
 #include "tasks/sensorDHT11.h"
 #include "tasks/sensorDHT11.cpp"
+
+// display oled 0.91"
+#include "tasks/display.h"
+#include "tasks/display.cpp"

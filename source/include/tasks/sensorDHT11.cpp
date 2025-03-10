@@ -6,6 +6,9 @@
 #define DHTPIN 4        // Pino onde o DHT11 está conectado (ajuste conforme necessário)
 #define DHTTYPE DHT11   // Tipo do sensor (DHT11)
 
+float humidade = 00;
+float temperatura = 00;
+
 // Criando uma instância do sensor DHT11
 DHT dht(DHTPIN, DHTTYPE);
 

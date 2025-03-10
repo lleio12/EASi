@@ -11,6 +11,7 @@ void setup () {
   Serial.println("Iniciando o sistema...");
 
   iniciarHumTemp();
+  iniciarDisplay();
 }
 
 void loop(){
