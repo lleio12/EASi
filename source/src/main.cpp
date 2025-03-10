@@ -10,7 +10,7 @@ void setup () {
 
   Serial.println("Iniciando o sistema...");
 
-  void iniciarHumTemp();
+  iniciarHumTemp();
 }
 
 void loop(){
