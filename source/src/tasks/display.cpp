@@ -29,7 +29,7 @@ static void OledTask(void *parameters) {
         display.clearDisplay();
         draw();
         display.display();
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        vTaskDelay(5000 / portTICK_PERIOD_MS);
     }
 }
 

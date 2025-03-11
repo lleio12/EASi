@@ -1,4 +1,5 @@
 #include "main.h"
+#include "utils/DHT11.h"
 
 void setup() {
   Serial.begin(115200);

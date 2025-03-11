@@ -40,11 +40,19 @@ namespace DHT11Util {
 
     String getFormattedTemperature() {
         float temp = airTemperature();
-        return isnan(temp) ? "N/A" : String(temp, 1) + " C";
+        if (isnan(temp)) {
+            return "N/A";  // Handle invalid readings
+        } else {
+            return String(static_cast<int>(temp));  // Convert to integer and then to string
+        }
     }
 
     String getFormattedHumidity() {
         float hum = airHumidity();
-        return isnan(hum) ? "N/A" : String(hum, 1) + " %";
+        if (isnan(hum)) {
+            return "N/A";  // Handle invalid readings
+        } else {
+            return String(static_cast<int>(hum));  // Convert to integer and then to string
+        }
     }
 }
