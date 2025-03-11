@@ -16,18 +16,20 @@ static void OledTask(void *parameters) {
     if (!display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR)) {
         Serial.println("OLED initialization failed");
         for(;;);
+    } else {
+        Serial.println("Display OLED iniciou com sucesso");
     }
     display.clearDisplay();
     display.setTextSize(1);
     display.setRotation(2);
-    display.setTextColor(SSD1306_WHITE);
-    display.setCursor(0, 0);
-    display.println("OLED Initialized");
+
+    splashScreen();
     display.display();
+    vTaskDelay(2000 / portTICK_PERIOD_MS);
 
     for(;;) {
         display.clearDisplay();
-        draw();
+        DHT11Screen();
         display.display();
         vTaskDelay(5000 / portTICK_PERIOD_MS);
     }
