@@ -1,6 +1,6 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-#include "../utils/DHT11Util.h"
+#include "../utils/DHT11.h"
 
 // Declare the display object
 extern Adafruit_SSD1306 display;
@@ -15,7 +15,7 @@ void draw(void) {
 
     display.setTextSize(2);
     display.setCursor(22, 0);
-    display.print(DHT11Util::getFormattedHumidity());
+    display.print(DHT11Util::airHumidity());
 
     display.setTextSize(1);
     display.setCursor(71, 16);
@@ -23,7 +23,7 @@ void draw(void) {
 
     display.setTextSize(2);
     display.setCursor(81, 0);
-    display.print(DHT11Util::getFormattedTemperature());
+    display.print(DHT11Util::airTemperature());
 
     display.display();
 }
