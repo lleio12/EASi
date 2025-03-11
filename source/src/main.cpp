@@ -1,5 +1,4 @@
 #include "main.h"
-#include "utils/DHT11Util.h"
 
 // bh --> 0x23
 // oled --> 0x3D / 0x3C
