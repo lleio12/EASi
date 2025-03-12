@@ -26,18 +26,15 @@ static void OledTask(void *parameters) {
     display.clearDisplay();
     display.setTextSize(1);
     display.setRotation(2);
-
-    splashScreen();  // Exibe a tela inicial
+    display.setTextColor(SSD1306_WHITE);
+    display.setCursor(0, 0);
+    display.println("OLED Initialized");
     display.display();
     vTaskDelay(2000 / portTICK_PERIOD_MS);
 
     for(;;) {
         display.clearDisplay();
-        if (currentScreen == 0) {
-            DHT11Screen();  // Exibe a tela do DHT11
-        } else {
-            cuideDasPlantas();  // Exibe a segunda tela
-        }
+        draw();
         display.display();
         vTaskDelay(100 / portTICK_PERIOD_MS);  // Atualiza a tela a cada 100ms
     }
