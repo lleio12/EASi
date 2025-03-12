@@ -5,7 +5,7 @@ void setup() {
   Serial.begin(115200);
   delay(500);
   Serial.println("Iniciando o sistema...");
-  pinMode(2, INPUT_PULLUP);
+  pinMode(0, INPUT);
   DHT11Util::begin(4);
   iniciarDisplay();
   iniciarBotao();

@@ -26,15 +26,18 @@ static void OledTask(void *parameters) {
     display.clearDisplay();
     display.setTextSize(1);
     display.setRotation(2);
-    display.setTextColor(SSD1306_WHITE);
-    display.setCursor(0, 0);
-    display.println("OLED Initialized");
+
+    splashScreen();  // Exibe a tela inicial
     display.display();
     vTaskDelay(2000 / portTICK_PERIOD_MS);
 
     for(;;) {
         display.clearDisplay();
-        draw();
+        if (currentScreen == 0) {
+            DHT11Screen();  // Exibe a tela do DHT11
+        } else {
+            cuideDasPlantas();  // Exibe a segunda tela
+        }
         display.display();
         vTaskDelay(100 / portTICK_PERIOD_MS);  // Atualiza a tela a cada 100ms
     }
@@ -44,7 +47,7 @@ static void buttonTask(void *parameters) {
     int lastButtonState = HIGH;  // Último estado do botão (HIGH por padrão)
 
     for(;;) {
-        int buttonState = digitalRead(2);  // Lê o estado atual do pino 2
+        int buttonState = digitalRead(0);  // Lê o estado atual do pino 2
         if (buttonState == LOW && lastButtonState == HIGH) {
             // Botão foi pressionado (transição de HIGH para LOW)
             currentScreen = (currentScreen + 1) % 2;  // Alterna entre 0 e 1
