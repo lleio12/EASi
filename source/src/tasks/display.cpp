@@ -36,7 +36,7 @@ static void OledTask(void *parameters) {
         if (currentScreen == 0) {
             DHT11Screen();  // Exibe a tela do DHT11
         } else {
-            cuideDasPlantas();  // Exibe a segunda tela
+            displayLightSensor();  // Exibe a segunda tela
         }
         display.display();
         vTaskDelay(100 / portTICK_PERIOD_MS);  // Atualiza a tela a cada 100ms
