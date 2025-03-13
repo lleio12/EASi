@@ -1,8 +1,13 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include "utils/DHT11.h"
+#include "main.h"
 
 extern Adafruit_SSD1306 display;
+
+// Declare the lightMutex and lightLevel variables as extern
+extern SemaphoreHandle_t lightMutex;
+extern float lightLevel;
 
 static const unsigned char PROGMEM image_Layer_6_bits[] = {0xe0, 0xe0, 0xe0};
 
@@ -101,15 +106,37 @@ static const unsigned char PROGMEM image_Layer_5_bits[] = {0xc0,0x00,0x40,0x00,0
 void displayLightSensor(void) {
     display.clearDisplay();
 
+    // Read light level safely
+    float currentLight;
+    if (xSemaphoreTake(lightMutex, portMAX_DELAY) == pdTRUE) {
+        currentLight = lightLevel;
+        xSemaphoreGive(lightMutex);
+    } else {
+        currentLight = 0.0; // Default to 0 if mutex fails
+    }
+
+    // Compute display value: floor(lightLevel / 1000) to match examples
+    int displayValue = static_cast<int>(currentLight / 1000);
+    String displayStr;
+    if (displayValue < 10) {
+        displayStr = "0" + String(displayValue); // Pad with zero if single digit
+    } else {
+        displayStr = String(displayValue);       // Use as is if two digits
+    }
+
     display.setTextColor(1);
-    display.setTextSize(1);
+    display.setTextSize(2);
     display.setTextWrap(false);
+    display.setCursor(35, 0);
+    display.print(displayStr); // Display the two-digit value
+
+    display.setCursor(59, 7);
+    display.setTextSize(1);
+    display.print("000"); // Retain as placeholder or modify as needed
+
+    display.setTextSize(1);
     display.setCursor(30, 16);
     display.print("LUZ AMBIENTE");
 
-    display.setTextSize(2);
-    display.setCursor(29, 0);
-    display.print("00001");
-
-    display.drawBitmap(87, 7, image_Layer_5_bits, 15, 7, 1);
+    display.drawBitmap(80, 7, image_Layer_5_bits, 15, 7, 1);
 }

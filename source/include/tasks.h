@@ -8,3 +8,5 @@
 
 // display oled 0.91"
 #include "tasks/display.h"
+
+#include "tasks/lightSensor.h"

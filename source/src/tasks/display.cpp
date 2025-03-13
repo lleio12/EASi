@@ -2,7 +2,6 @@
 #include "display/screens.h"
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-#include <Wire.h>
 #include "main.h"
 
 #define SCREEN_WIDTH 128
@@ -14,8 +13,6 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 int currentScreen = 0;  // 0 para splash, 1 para DHT11
 
 static void OledTask(void *parameters) {
-    Wire.setPins(6, 7);
-    Wire.begin();
     if (!display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR)) {
         Serial.println("OLED initialization failed");
         for(;;);
