@@ -106,37 +106,50 @@ static const unsigned char PROGMEM image_Layer_5_bits[] = {0xc0,0x00,0x40,0x00,0
 void displayLightSensor(void) {
     display.clearDisplay();
 
-    // Read light level safely
+    // Safely read the light level
     float currentLight;
     if (xSemaphoreTake(lightMutex, portMAX_DELAY) == pdTRUE) {
         currentLight = lightLevel;
         xSemaphoreGive(lightMutex);
     } else {
-        currentLight = 0.0; // Default to 0 if mutex fails
+        currentLight = 0.0; // Default if mutex fails
     }
 
-    // Compute display value: floor(lightLevel / 1000) to match examples
-    int displayValue = static_cast<int>(currentLight / 1000);
-    String displayStr;
-    if (displayValue < 10) {
-        displayStr = "0" + String(displayValue); // Pad with zero if single digit
-    } else {
-        displayStr = String(displayValue);       // Use as is if two digits
+    // Convert to integer and split into parts
+    int value = static_cast<int>(currentLight);
+    int first_part = (value >= 1000) ? (value / 1000) : 0;
+    int second_part = value % 1000;
+
+    // Format first part (2 digits)
+    String first_str = (first_part < 10) ? "0" + String(first_part) : String(first_part);
+
+    // Format second part (3 digits with leading zeros)
+    String second_str = String(second_part);
+    while (second_str.length() < 3) {
+        second_str = "0" + second_str;
     }
 
-    display.setTextColor(1);
-    display.setTextSize(2);
-    display.setTextWrap(false);
+    // Display settings
+    display.setTextColor(1);      // White text
+    display.setTextSize(2);       // Size 2 for readability
+    display.setTextWrap(false);   // No wrapping
+
+    // Print first part at (35, 0)
     display.setCursor(35, 0);
-    display.print(displayStr); // Display the two-digit value
+    display.print(first_str);
 
+    // Print second part at (59, 7)
     display.setCursor(59, 7);
     display.setTextSize(1);
-    display.print("000"); // Retain as placeholder or modify as needed
+    display.print(second_str);
 
+    // Optional: Add label
     display.setTextSize(1);
     display.setCursor(30, 16);
     display.print("LUZ AMBIENTE");
 
+    // Optional: Add bitmap (adjust as needed)
     display.drawBitmap(80, 7, image_Layer_5_bits, 15, 7, 1);
+
+    display.display(); // Update the display
 }
