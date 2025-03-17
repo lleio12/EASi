@@ -1,39 +1,27 @@
+#include "blynkConfig.h" // Include Blynk definitions
 #include "tasks/blynkHandler.h"
-#include "blynkConfig.h"
-#include <WiFi.h>
-#include <WiFiClient.h>
-// Include minimal Blynk header if needed for Blynk.run(), etc.
-#include <Blynk/BlynkApi.h> // May be required; test compilation
-#include <BlynkSimpleEsp32.h>
 
-// WiFi credentials
+// Define your WiFi credentials
 char ssid[] = "Nigga Shark";
 char pass[] = "nigger69";
 
-// Relay pin
 #define RELAY_PIN 3
 
-// Virtual pins for Blynk
-#define V_RELAY 1
-
-static void blynkTask(void *parameters) {
-    pinMode(RELAY_PIN, OUTPUT);
-    digitalWrite(RELAY_PIN, LOW);
-
+void setup() {
+    // Initialize Blynk with the auth token from blynkConfig.h
     Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
 
-    while (1) {
-        Blynk.run();
-        vTaskDelay(10 / portTICK_PERIOD_MS);
-    }
+    // Set the relay pin as output
+    pinMode(RELAY_PIN, OUTPUT);
 }
 
-BLYNK_WRITE(V_RELAY) {
-    int pinValue = param.asInt();
-    digitalWrite(RELAY_PIN, pinValue);
+void loop() {
+    // Run Blynk
+    Blynk.run();
 }
 
-void iniciarBlynkTask(UBaseType_t core, uint32_t stackDepth, UBaseType_t priority) {
-    TaskHandle_t blynkTaskHandle;
-    xTaskCreatePinnedToCore(blynkTask, "Blynk Task", stackDepth, NULL, priority, &blynkTaskHandle, core);
+// Blynk virtual pin write handler
+BLYNK_WRITE(V1) {
+    int pinValue = param.asInt(); // Get the value from the Blynk app
+    digitalWrite(RELAY_PIN, pinValue); // Control the relay
 }
