@@ -5,6 +5,10 @@
 SemaphoreHandle_t lightMutex;
 float lightLevel = 0.0;
 
+bool pump1State = false;
+bool pump2State = false;
+SemaphoreHandle_t pumpMutex;
+
 void setup() {
   Serial.begin(115200);
   delay(500);
@@ -17,11 +21,15 @@ void setup() {
   lightMutex = xSemaphoreCreateMutex();
   if (lightMutex == NULL) {
     Serial.println("Failed to create light mutex");
+  }pumpMutex = xSemaphoreCreateMutex();
+  if (pumpMutex == NULL) {
+    Serial.println("Failed to create pump mutex");
   }
 
   iniciarDisplay();
   iniciarBotao();
   iniciarLightSensor();
+  iniciarBlynkTask();
 }
 
 void loop() {
