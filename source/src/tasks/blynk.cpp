@@ -7,12 +7,13 @@ char pass[] = "nigger69";
 
 void blynkTask(void* parameters) {
   pinMode(15, OUTPUT);
-  digitalWrite(15, HIGH);
+  digitalWrite(15, LOW);
   Blynk.virtualWrite(V5, 15);
   Blynk.begin(auth, ssid, pass);
 
   for(;;) {
     Blynk.run();
+    vTaskDelay(100 / portTICK_PERIOD_MS);
   }
 }
 
