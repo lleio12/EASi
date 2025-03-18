@@ -22,6 +22,7 @@ void setup() {
   iniciarDisplay();
   iniciarBotao();
   iniciarLightSensor();
+  iniciarBlynk();
 }
 
 void loop() {

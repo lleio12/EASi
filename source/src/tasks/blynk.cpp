@@ -1,29 +1,29 @@
-#define BLYNK_PRINT Serial
+#include "tasks/blynk.h"
 
-/* Fill in information from Blynk Device Info here */
-#define BLYNK_TEMPLATE_ID           "TMPL5i2z9CRPw"
-#define BLYNK_TEMPLATE_NAME         "EASI"
-#define BLYNK_AUTH_TOKEN            "Iq2gtah4aNJB_ZyzkLsuoTblYGN4kIFu"
-
-
-#include <WiFi.h>
-#include <WiFiClient.h>
-#include <BlynkSimpleEsp32.h>
-
-// Your WiFi credentials.
-// Set password to "" for open networks.
+char auth[] = BLYNK_AUTH_TOKEN;
 char ssid[] = "Nigga Shark";
 char pass[] = "nigger69";
 
-void setup()
-{
-  // Debug console
-  Serial.begin(9600);
+void blynkTask(void* parameters) {
+  Blynk.virtualWrite(V5, 15);
+  Blynk.begin(auth, ssid, pass);
+  pinMode(15, OUTPUT);
+  digitalWrite(15, HIGH);
 
-  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
+  for(;;) {
+    Blynk.run();
+  }
 }
 
-void loop()
+void iniciarBlynk(UBaseType_t core, uint32_t stackDepth, UBaseType_t priority)
 {
-  Blynk.run();
+    TaskHandle_t blynk;
+    xTaskCreatePinnedToCore(
+        blynkTask,
+        "A tarefa do Blynk",
+        stackDepth,
+        NULL,
+        priority,
+        &blynk,
+        core);
 }
