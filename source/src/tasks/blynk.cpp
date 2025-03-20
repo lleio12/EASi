@@ -34,6 +34,13 @@ void blynkTask(void* parameters) {
 
   for(;;) {
     Blynk.run(); // Executa o manipulador do Blynk
+
+    // Send soil moisture data to V4 every second
+    float moisture = MoistureSensorUtil::getMoisturePercentage(); // Replace with your sensor reading
+    if (moisture >= 0) {
+      Blynk.virtualWrite(V4, moisture); // Send value to V4 (gauge)
+    }
+
     vTaskDelay(50 / portTICK_PERIOD_MS); // Atraso de 100ms
   }
 }

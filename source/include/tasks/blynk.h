@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Arduino.h>
+#include "utils/moistureSensor.h"
 
 extern int bomba1;
 
