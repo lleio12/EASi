@@ -5,15 +5,36 @@ char auth[] = BLYNK_AUTH_TOKEN;
 char ssid[] = "Nigga Shark";
 char pass[] = "nigger69";
 
+// Funções BLYNK_WRITE para controlar os pinos
+BLYNK_WRITE(V1) {
+  int value = param.asInt(); // Recebe o valor do aplicativo Blynk
+  digitalWrite(17, value);  // Define o estado do pino 16
+}
+
+BLYNK_WRITE(V2) {
+  int value = param.asInt(); // Recebe o valor do aplicativo Blynk
+  digitalWrite(16, value);  // Define o estado do pino 17
+}
+
+BLYNK_WRITE(V3) {
+  int value = param.asInt(); // Recebe o valor do aplicativo Blynk
+  digitalWrite(18, value);  // Define o estado do pino 18
+}
+
 void blynkTask(void* parameters) {
-  pinMode(15, OUTPUT);
-  digitalWrite(15, LOW);
-  Blynk.virtualWrite(V5, 15);
-  Blynk.begin(auth, ssid, pass);
+  // Configura os pinos 16, 17 e 18 como saídas
+  pinMode(16, OUTPUT);
+  digitalWrite(16, HIGH); // Estado inicial baixo
+  pinMode(17, OUTPUT);
+  digitalWrite(17, HIGH); // Estado inicial baixo
+  pinMode(18, OUTPUT);
+  digitalWrite(18, HIGH); // Estado inicial baixo
+
+  Blynk.begin(auth, ssid, pass); // Inicia a conexão com o Blynk
 
   for(;;) {
-    Blynk.run();
-    vTaskDelay(100 / portTICK_PERIOD_MS);
+    Blynk.run(); // Executa o manipulador do Blynk
+    vTaskDelay(50 / portTICK_PERIOD_MS); // Atraso de 100ms
   }
 }
 

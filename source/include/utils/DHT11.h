@@ -1,6 +1,6 @@
 #pragma once
-#include <Arduino.h>  // For basic Arduino functions and FreeRTOS support
-#include <DHT.h>      // Adafruit DHT library for sensor interaction
+#include <Arduino.h>  
+#include <DHT.h>    
 
 namespace DHT11Util {
     // Initialize the DHT11 sensor with the specified pin
