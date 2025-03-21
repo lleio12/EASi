@@ -1,7 +1,7 @@
 #include "tasks/sensorHumidade.h"
-#define MOISTURE_SENSOR_PIN 15  
-#define LED_PIN 4               
-#define THRESHOLD 2000          
+#define MOISTURE_SENSOR_PIN 15
+#define LED_PIN 4
+#define THRESHOLD 2000
 
 void moistureSensor(void *parameters){
 
