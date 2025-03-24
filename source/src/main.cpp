@@ -27,6 +27,7 @@ void setup() {
   iniciarBotao();
   iniciarLightSensor();
   iniciarBlynk();
+  iniciarBuzzer();
 }
 
 void loop() {

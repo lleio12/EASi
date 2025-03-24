@@ -44,7 +44,7 @@ static void buttonTask(void *parameters) {
     int lastButtonState = HIGH;  // Último estado do botão (HIGH por padrão)
 
     for(;;) {
-        int buttonState = digitalRead(0);  // Lê o estado atual do pino 2
+        int buttonState = digitalRead(0);  // Lê o estado atual do pino 0
         if (buttonState == LOW && lastButtonState == HIGH) {
             // Botão foi pressionado (transição de HIGH para LOW)
             currentScreen = (currentScreen + 1) % 2;  // Alterna entre 0 e 1

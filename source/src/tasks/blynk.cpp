@@ -1,10 +1,11 @@
 #include "tasks/blynk.h"
 #include "blynkConfig.h"
 #include "utils/DHT11.h"
+#include "main.h"
 
 char auth[] = BLYNK_AUTH_TOKEN;
-char ssid[] = "Nigga Shark";
-char pass[] = "nigger69";
+char ssid[] = "iphone de Luciana";
+char pass[] = "fthdp6zzbr";
 
 int pinoBomba1 = 17, pinoBomba2 = 16, pinoBomba3 = 18, pinoUV = 20;
 
@@ -61,6 +62,14 @@ void blynkTask(void* parameters) {
 
       Blynk.virtualWrite(V7, temperature); // Send temperature to V7 (gauge)
       Blynk.virtualWrite(V8, humidity); // Send humidity to V8 (gauge)
+
+      float currentLight;
+      if (xSemaphoreTake(lightMutex, portMAX_DELAY) == pdTRUE) {
+        currentLight = lightLevel; // Lê o valor do sensor de luz
+        xSemaphoreGive(lightMutex);
+        Blynk.virtualWrite(V5, currentLight); // Envia para o datastream V5
+      }
+
       lastMoistureSendTime = currentMillis; // Update the last send time
     }
 

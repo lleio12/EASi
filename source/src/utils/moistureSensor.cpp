@@ -18,7 +18,7 @@ namespace MoistureSensorUtil {
         if (rawValue == -1) return -1.0;
 
         const int maxValue = 3000;
-        const int minValue = 1018;    
+        const int minValue = 100;    
 
         rawValue = constrain(rawValue, minValue, maxValue);
 
