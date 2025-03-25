@@ -1,6 +1,4 @@
 #include "main.h"
-#include "utils/DHT11.h"
-#include "utils/moistureSensor.h"
 
 // Define the lightMutex and lightLevel variables
 SemaphoreHandle_t lightMutex;
@@ -14,6 +12,7 @@ void setup() {
   pinMode(0, INPUT);
   DHT11Util::begin(4);
   MoistureSensorUtil::begin(15);
+  BombasUtil::begin();
 
   Wire.setPins(6, 7);              // Set I2C pins (same as OLED)
   Wire.begin();                    // Initialize I2C bus

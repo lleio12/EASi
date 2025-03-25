@@ -10,18 +10,18 @@ char pass[] = "fthdp6zzbr";
 int pinoBomba1 = 17, pinoBomba2 = 16, pinoBomba3 = 18, pinoUV = 20;
 
 BLYNK_WRITE(V1) { // bomba 1
-  int value = param.asInt(); // Recebe o valor do aplicativo Blynk
-  digitalWrite(pinoBomba1, value);  // Define o estado do pino 16
+  int value = param.asInt();
+  BombasUtil::bomba(0, value); // Índice 0 para bomba1
 }
 
 BLYNK_WRITE(V2) { // bomba 2
   int value = param.asInt();
-  digitalWrite(pinoBomba2, value);
+  BombasUtil::bomba(1, value); // Índice 1 para bomba2
 }
 
 BLYNK_WRITE(V3) { // bomba 3
   int value = param.asInt();
-  digitalWrite(pinoBomba3, value);
+  BombasUtil::bomba(2, value); // Índice 2 para bomba3
 }
 
 BLYNK_WRITE(V0) { // luzes uv
