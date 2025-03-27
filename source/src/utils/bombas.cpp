@@ -6,6 +6,7 @@ namespace BombasUtil {
     void begin() {
         for (int i = 0; i < 3; i++) {
             pinMode(pumpPins[i], OUTPUT);
+            vTaskDelay(100 / portTICK_PERIOD_MS);
             digitalWrite(pumpPins[i], LOW); // Inicializa desligado (LOW = off)
         }
     }
