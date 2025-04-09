@@ -47,14 +47,25 @@ void blynkTask(void* parameters) {
   unsigned long lastLuxSendTime = 0; // Track the last time lux data was sent
 
   for(;;) {
-    Blynk.run();
-
-    // Send soil moisture data to V4 every 5 seconds
+    Blynk.run();    // Send soil moisture data from all sensors every 5 seconds
     unsigned long currentMillis = millis();
     if (currentMillis - lastMoistureSendTime >= 5000) {
-      float moisture = MoistureSensorUtil::getMoisturePercentage(); // Replace with your sensor reading
-      if (moisture >= 0) {
-        Blynk.virtualWrite(V4, moisture); // Send value to V4 (gauge)
+      // Sensor 1 (original sensor on pin 15)
+      float moisture1 = MoistureSensorUtil::getMoisturePercentage(MoistureSensorUtil::SENSOR_1);
+      if (moisture1 >= 0) {
+        Blynk.virtualWrite(V4, moisture1); // Send value to V4 (gauge)
+      }
+      
+      // Sensor 2 (new sensor on pin 8)
+      float moisture2 = MoistureSensorUtil::getMoisturePercentage(MoistureSensorUtil::SENSOR_2);
+      if (moisture2 >= 0) {
+        Blynk.virtualWrite(V9, moisture2); // Send value to V9 (gauge)
+      }
+      
+      // Sensor 3 (new sensor on pin 3)
+      float moisture3 = MoistureSensorUtil::getMoisturePercentage(MoistureSensorUtil::SENSOR_3);
+      if (moisture3 >= 0) {
+        Blynk.virtualWrite(V10, moisture3); // Send value to V10 (gauge)
       }
 
       float temperature = DHT11Util::getFormattedTemperature().toFloat();
