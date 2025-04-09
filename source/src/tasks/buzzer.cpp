@@ -1,37 +1,34 @@
 #include "tasks/buzzer.h"
 #include "main.h"
 
-#define BUZZER_PIN 21
-#define PWM_CHANNEL 0 // Canal PWM (0-15 no ESP32)
-#define PWM_FREQ 2000 // Frequência fixa (ex.: 2kHz, comum para buzzers)
-#define PWM_RESOLUTION 8 // Resolução de 8 bits (0-255)
+#define BUZZER_PIN 21 // Pino conectado ao buzzer ativo
 
 void buzzerTask(void* parameters) {
-    // Configura o canal PWM
-    ledcSetup(PWM_CHANNEL, PWM_FREQ, PWM_RESOLUTION);
-    ledcAttachPin(BUZZER_PIN, PWM_CHANNEL);
-    ledcWrite(PWM_CHANNEL, 0); // Começa desligado (duty cycle 0)
+    pinMode(BUZZER_PIN, OUTPUT); // Configura o pino como saída
+    digitalWrite(BUZZER_PIN, HIGH); // Começa desligado
+    vTaskDelay(150 / portTICK_PERIOD_MS); // Aguarda 1 segundo
+    digitalWrite(BUZZER_PIN, LOW); // Começa desligado
+    vTaskDelay(150 / portTICK_PERIOD_MS); // Aguarda 1 segundo
+    digitalWrite(BUZZER_PIN, HIGH); // Começa desligado
+    vTaskDelay(150 / portTICK_PERIOD_MS); // Aguarda 1 segundo
+    digitalWrite(BUZZER_PIN, LOW); // Começa desligado
 
-    for(;;) {
+    for (;;) {
+        // Lógica para ativar o buzzer
         float currentLight;
         if (xSemaphoreTake(lightMutex, portMAX_DELAY) == pdTRUE) {
-            currentLight = lightLevel;
-            xSemaphoreGive(lightMutex);
-        } else {
-            currentLight = -1.0;
+          currentLight = lightLevel; // Lê o valor do sensor de luz
+          xSemaphoreGive(lightMutex);
+          if (currentLight < 100) { // Se a luz estiver abaixo de 100
+            digitalWrite(BUZZER_PIN, HIGH); // Liga o buzzer
+            vTaskDelay(1000 / portTICK_PERIOD_MS); // Aguarda 1 segundo
+            digitalWrite(BUZZER_PIN, LOW); // Desliga o buzzer
+            vTaskDelay(1000 / portTICK_PERIOD_MS); // Aguarda 1 segundo
+          } else {
+            digitalWrite(BUZZER_PIN, LOW); // Desliga o buzzer
+          }
         }
-
-        if (currentLight == 0.0) {
-            // Liga o buzzer com 50% de duty cycle (metade da potência máxima)
-            ledcWrite(PWM_CHANNEL, 255); // 128 de 255 = 50%
-            vTaskDelay(200 / portTICK_PERIOD_MS);
-            ledcWrite(PWM_CHANNEL, 0); // Desliga
-            vTaskDelay(200 / portTICK_PERIOD_MS);
-        } else {
-            ledcWrite(PWM_CHANNEL, 0); // Desligado
-        }
-
-        vTaskDelay(100 / portTICK_PERIOD_MS);
+        vTaskDelay(12 / portTICK_PERIOD_MS); // Atraso de 100ms
     }
 }
 
