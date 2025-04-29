@@ -32,8 +32,12 @@ static void OledTask(void *parameters) {
         display.clearDisplay();
         if (currentScreen == 0) {
             DHT11Screen();  // Exibe a tela do DHT11
-        } else {
+        } 
+        if (currentScreen == 1) {
             displayLightSensor();  // Exibe a segunda tela
+        }
+        if (currentScreen == 2) {
+            displaySoilSensors();  // Exibe a tela do sensor de luz
         }
         display.display();
         vTaskDelay(100 / portTICK_PERIOD_MS);  // Atualiza a tela a cada 100ms
@@ -47,7 +51,7 @@ static void buttonTask(void *parameters) {
         int buttonState = digitalRead(0);  // Lê o estado atual do pino 0
         if (buttonState == LOW && lastButtonState == HIGH) {
             // Botão foi pressionado (transição de HIGH para LOW)
-            currentScreen = (currentScreen + 1) % 2;  // Alterna entre 0 e 1
+            currentScreen = (currentScreen + 1) % 3;  // Alterna entre 0 e 1
             Serial.println("Botão pressionado");
             vTaskDelay(50 / portTICK_PERIOD_MS);  // Debounce simples de 50ms
         }

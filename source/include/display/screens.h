@@ -153,3 +153,43 @@ void displayLightSensor(void) {
 
     display.display(); // Update the display
 }
+
+void displaySoilSensors (void) {
+    display.clearDisplay();
+
+    // Read moisture levels from all sensors
+    float moisture1 = MoistureSensorUtil::getMoisturePercentage(MoistureSensorUtil::SENSOR_1);
+    float moisture2 = MoistureSensorUtil::getMoisturePercentage(MoistureSensorUtil::SENSOR_2);
+    float moisture3 = MoistureSensorUtil::getMoisturePercentage(MoistureSensorUtil::SENSOR_3);
+
+    // Display settings
+    display.setTextColor(1);      // White text
+    display.setTextSize(2);
+    display.setTextWrap(false);   // No wrapping
+
+    // Print moisture levels at specified positions
+    display.setTextSize(1);
+    display.setCursor(21, 17);
+    display.print("H1");
+    display.setTextSize(2);
+    display.setCursor(15, 00);
+    display.print(moisture1, 0);
+
+    // Print moisture levels at specified positions
+    display.setTextSize(1);
+    display.setCursor(59, 17);
+    display.print("H2");
+    display.setTextSize(2);
+    display.setCursor(53, 00);
+    display.print(moisture2, 0);
+
+    // Print moisture levels at specified positions
+    display.setTextSize(1);
+    display.setCursor(96, 17);
+    display.print("H3");
+    display.setTextSize(2);
+    display.setCursor(91, 00);
+    display.print(moisture3, 0);
+
+    display.display(); // Update the display
+}

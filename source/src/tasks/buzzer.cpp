@@ -19,7 +19,7 @@ void buzzerTask(void* parameters) {
         if (xSemaphoreTake(lightMutex, portMAX_DELAY) == pdTRUE) {
           currentLight = lightLevel; // Lê o valor do sensor de luz
           xSemaphoreGive(lightMutex);
-          if (currentLight < 100) { // Se a luz estiver abaixo de 100
+          if (currentLight < 10) { // Se a luz estiver abaixo de 100
             digitalWrite(BUZZER_PIN, HIGH); // Liga o buzzer
             vTaskDelay(1000 / portTICK_PERIOD_MS); // Aguarda 1 segundo
             digitalWrite(BUZZER_PIN, LOW); // Desliga o buzzer

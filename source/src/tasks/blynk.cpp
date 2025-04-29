@@ -4,7 +4,7 @@
 #include "main.h"
 
 char auth[] = BLYNK_AUTH_TOKEN;
-char ssid[] = "iPhone de Luciana";
+char ssid[] = "iPhone";
 char pass[] = "fthdp6zzbr";
 
 int pinoBomba1 = 17, pinoBomba2 = 16, pinoBomba3 = 18, pinoUV = 20;
